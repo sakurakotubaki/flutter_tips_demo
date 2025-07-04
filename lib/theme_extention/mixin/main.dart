@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 
-mixin AppThemeDataMixin {
-  Color get primaryColor;
-  Color get accentColor;
-  Color get surfaceColor;
-  Color get onSurfaceColor;
-  TextStyle get headlineStyle;
-  TextStyle get bodyStyle;
-  TextStyle get captionStyle;
-}
+// 🔥 Record型でテーマデータを定義 - @overrideが不要
+typedef AppThemeData = ({
+  Color primaryColor,
+  Color accentColor,
+  Color surfaceColor,
+  Color onSurfaceColor,
+  TextStyle headlineStyle,
+  TextStyle bodyStyle,
+  TextStyle captionStyle,
+});
 
-enum AppThemeEnum with AppThemeDataMixin {
-  light(
+// 🔥 定義済みテーマ - Record型のインスタンス
+class AppThemes {
+  static const AppThemeData light = (
     primaryColor: Colors.blue,
     accentColor: Colors.amber,
     surfaceColor: Colors.white,
@@ -19,8 +21,9 @@ enum AppThemeEnum with AppThemeDataMixin {
     headlineStyle: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
     bodyStyle: TextStyle(fontSize: 16),
     captionStyle: TextStyle(fontSize: 12, color: Colors.grey),
-  ),
-  dark(
+  );
+
+  static const AppThemeData dark = (
     primaryColor: Colors.blueGrey,
     accentColor: Colors.deepOrange,
     surfaceColor: Colors.black,
@@ -29,41 +32,16 @@ enum AppThemeEnum with AppThemeDataMixin {
     bodyStyle: TextStyle(fontSize: 16, color: Colors.white70),
     captionStyle: TextStyle(fontSize: 12, color: Colors.white54),
   );
-
-  @override
-  final Color primaryColor;
-  @override
-  final Color accentColor;
-  @override
-  final Color surfaceColor;
-  @override
-  final Color onSurfaceColor;
-  @override
-  final TextStyle headlineStyle;
-  @override
-  final TextStyle bodyStyle;
-  @override
-  final TextStyle captionStyle;
-
-  const AppThemeEnum({
-    required this.primaryColor,
-    required this.accentColor,
-    required this.surfaceColor,
-    required this.onSurfaceColor,
-    required this.headlineStyle,
-    required this.bodyStyle,
-    required this.captionStyle,
-  });
 }
 
 extension AppThemeDataExt on ThemeData {
-  AppThemeEnum get appTheme {
-    return brightness == Brightness.dark ? AppThemeEnum.dark : AppThemeEnum.light;
+  AppThemeData get appTheme {
+    return brightness == Brightness.dark ? AppThemes.dark : AppThemes.light;
   }
 }
 
 extension BuildContextAppThemeExtension on BuildContext {
-  AppThemeEnum get appTheme => Theme.of(this).appTheme;
+  AppThemeData get appTheme => Theme.of(this).appTheme;
 }
 
 void main() {
@@ -94,6 +72,7 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 🔥 Record型のフィールドに直接アクセス
     final theme = context.appTheme;
 
     return Scaffold(
@@ -116,7 +95,6 @@ class MainScreen extends StatelessWidget {
               'Surface Color',
               style: theme.captionStyle.copyWith(color: theme.surfaceColor),
             ),
-            // headlineStyle, bodyStyle, captionStyle
             Text(
               'Headline Style',
               style: theme.headlineStyle,
