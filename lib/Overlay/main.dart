@@ -40,16 +40,6 @@ class _MyHomePageState extends State<MyHomePage> {
       builder: (BuildContext context) {
         return Stack(
           children: [
-            // 左側にメッセージ画像を配置
-            Positioned(
-              top: 200, // 画面上から200ピクセルの位置
-              left: 40, // 画面左から40ピクセルの位置
-              child: Image.asset(
-                'images/message.png',
-                width: 200, // 画像の幅を200ピクセルに設定
-                height: 200, // 画像の高さを200ピクセルに設定
-              ),
-            ),
             // 右側にDashくんの画像を配置（装飾付き）
             Positioned(
               top: 300, // 画面上から300ピクセルの位置
@@ -77,6 +67,16 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                 ),
+              ),
+            ),
+            // 左側にメッセージ画像を配置
+            Positioned(
+              top: 180, // 画面上から200ピクセルの位置
+              left: 130, // 画面左から40ピクセルの位置
+              child: Image.asset(
+                'images/message.png',
+                width: 200, // 画像の幅を200ピクセルに設定
+                height: 200, // 画像の高さを200ピクセルに設定
               ),
             ),
           ],
